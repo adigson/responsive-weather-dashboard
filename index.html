@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Weather Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Search & Control Header -->
+        <header class="dashboard-header">
+            <form id="search-form" class="search-bar">
+                <input type="text" id="search-input" placeholder="Search for a city..." required aria-label="Search city">
+                <button type="submit" class="btn-search">Search</button>
+            </form>
+            <div class="controls">
+                <button id="geo-btn" class="btn-secondary" title="Use current location">📍 Locate Me</button>
+                <select id="unit-selector" class="unit-dropdown" aria-label="Toggle measurement units">
+                    <option value="metric">Metric (°C, km/h, mm)</option>
+                    <option value="imperial">Imperial (°F, mph, in)</option>
+                </select>
+            </div>
+        </header>
+
+        <main class="dashboard-grid">
+            <!-- Current Weather Overview -->
+            <section class="card card-current">
+                <div class="current-header">
+                    <h1 id="location-name">Lagos, Nigeria</h1>
+                    <p id="current-date">Wednesday, 5:26 PM</p>
+                </div>
+                <div class="current-temp-block">
+                    <div id="weather-icon" class="weather-icon-large">☀️</div>
+                    <div class="temp-display">
+                        <span id="current-temp">--</span><span class="unit-symbol">°</span>
+                    </div>
+                </div>
+                <p id="weather-condition" class="weather-condition-text">Clear Sky</p>
+            </section>
+
+            <!-- Detailed Weather Metrics Grid -->
+            <section class="metrics-grid">
+                <div class="card metric-box">
+                    <h3>Apparent Temp</h3>
+                    <p id="metric-feels-like">--</p>
+                </div>
+                <div class="card metric-box">
+                    <h3>Humidity</h3>
+                    <p id="metric-humidity">--</p>
+                </div>
+                <div class="card metric-box">
+                    <h3>Wind Speed</h3>
+                    <p id="metric-wind">--</p>
+                </div>
+                <div class="card metric-box">
+                    <h3>Precipitation</h3>
+                    <p id="metric-precipitation">--</p>
+                </div>
+            </section>
+
+            <!-- Day Selector & Hourly Forecast -->
+            <section class="card card-hourly">
+                <div class="hourly-header">
+                    <h2>Hourly Forecast</h2>
+                    <select id="forecast-day-select" class="day-dropdown">
+                        <!-- Options populated dynamically via JavaScript -->
+                    </select>
+                </div>
+                <div id="hourly-container" class="hourly-scroll-container">
+                    <!-- Hourly items generated via JS -->
+                </div>
+            </section>
+
+            <!-- 7-Day Forecast Section -->
+            <section class="card card-weekly">
+                <h2>7-Day Forecast</h2>
+                <div id="weekly-container" class="weekly-list">
+                    <!-- Weekly rows generated via JS -->
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
