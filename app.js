@@ -85,26 +85,40 @@ function setupEventListeners() {
 // Geocoding Implementation (Converts text entries into coordinate objects)
 async function handleCitySearch(cityQuery) {
     try {
-        const geoUrl = `https://open-meteo.com{encodeURIComponent(cityQuery)}&count=1&language=en&format=json`;
-        const res = await fetch(geoUrl);
+        const params = new URLSearchParams({
+            name: cityQuery,
+            count: '1',
+            language: 'en',
+            format: 'json'
+        });
+
+        const res = await fetch(
+            `https://geocoding-api.open-meteo.com/v1/search?${params}`
+        );
+
+        if (!res.ok) {
+            throw new Error(`Geocoding failed: ${res.status}`);
+        }
+
         const data = await res.json();
-        
-        if (!data.results || data.results.length === 0) {
+
+        if (!data.results?.length) {
             alert("Location not found. Please try another search.");
             return;
         }
 
-        // FIX: Extracting the first object match cleanly from the results array
-        const topMatch = data.results[0]; 
-        
+        const topMatch = data.results[0];
+
         activeCoordinates = {
             lat: topMatch.latitude,
             lon: topMatch.longitude,
             name: `${topMatch.name}, ${topMatch.country || ''}`
         };
-        fetchWeatherData();
+
+        await fetchWeatherData();
     } catch (err) {
-        console.error("Geocoding failed processing:", err);
+        console.error("Geocoding failed:", err);
+        alert("Unable to search for that location.");
     }
 }
 
@@ -112,24 +126,39 @@ async function handleCitySearch(cityQuery) {
 async function fetchWeatherData() {
     const { lat, lon, name } = activeCoordinates;
     const isMetric = currentUnitSystem === 'metric';
-    
-    const tempUnit = isMetric ? 'celsius' : 'fahrenheit';
-    const windUnit = isMetric ? 'kmh' : 'mph';
-    const precipUnit = isMetric ? 'mm' : 'inch';
 
-    const url = `https://open-meteo.com{lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&wind_speed_unit=${windUnit}&precipitation_unit=${precipUnit}&temperature_unit=${tempUnit}&timezone=auto`;
+    const params = new URLSearchParams({
+        latitude: lat,
+        longitude: lon,
+        current: 'temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m',
+        hourly: 'temperature_2m,weather_code',
+        daily: 'weather_code,temperature_2m_max,temperature_2m_min',
+        wind_speed_unit: isMetric ? 'kmh' : 'mph',
+        precipitation_unit: isMetric ? 'mm' : 'inch',
+        temperature_unit: isMetric ? 'celsius' : 'fahrenheit',
+        timezone: 'auto',
+        forecast_days: '7'
+    });
 
     try {
-        const res = await fetch(url);
+        const res = await fetch(
+            `https://api.open-meteo.com/v1/forecast?${params}`
+        );
+
+        if (!res.ok) {
+            throw new Error(`Weather request failed: ${res.status}`);
+        }
+
         weatherDataCache = await res.json();
-        
+
         document.getElementById('location-name').textContent = name;
         renderDashboard();
     } catch (err) {
-        console.error("Weather data pipeline disruption:", err);
+        console.error("Weather data request failed:", err);
+        document.getElementById('weather-condition').textContent =
+            'Weather unavailable';
     }
 }
-
 // Complete View Redraw Engine
 function renderDashboard() {
     if (!weatherDataCache || !weatherDataCache.current) return;
@@ -187,25 +216,28 @@ function renderHourlyContainer(dayIndex) {
     const container = document.getElementById('hourly-container');
     container.innerHTML = '';
 
-    const startIdx = dayIndex * 24;
-    const endIdx = startIdx + 24;
-    
+    if (!weatherDataCache?.hourly || !weatherDataCache.daily) return;
+
+    const selectedDate = weatherDataCache.daily.time[dayIndex];
+    const hourly = weatherDataCache.hourly;
     const tempUnits = weatherDataCache.hourly_units.temperature_2m;
 
-    for (let i = startIdx; i < endIdx; i++) {
-        const time = new Date(weatherDataCache.hourly.time[i]);
-        const temp = Math.round(weatherDataCache.hourly.temperature_2m[i]);
-        const condition = getWeatherInfo(weatherDataCache.hourly.weather_code[i]);
+    hourly.time.forEach((timeString, index) => {
+        if (!timeString.startsWith(selectedDate)) return;
+
+        const temp = Math.round(hourly.temperature_2m[index]);
+        const condition = getWeatherInfo(hourly.weather_code[index]);
 
         const hourEl = document.createElement('div');
         hourEl.className = 'hourly-item';
         hourEl.innerHTML = `
-            <span>${time.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true })}</span>
+            <span>${timeString.slice(11, 16)}</span>
             <span style="font-size: 1.75rem">${condition.icon}</span>
             <strong>${temp}${tempUnits}</strong>
         `;
+
         container.appendChild(hourEl);
-    }
+    });
 }
 
 function renderWeeklyForecast() {
