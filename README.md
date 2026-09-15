@@ -50,9 +50,9 @@ During development, browser hard reloads such as `Ctrl + F5` were used to ensure
 ## 💻 Getting Started
 
 1. Clone the repository:
-
+```bash
    git clone https://github.com/adigson/responsive-weather-dashboard.git
-
+```
 2. Open the project folder in VS Code.
 
 3. Open `index.html` with Live Server, or serve the folder using any local web server.
