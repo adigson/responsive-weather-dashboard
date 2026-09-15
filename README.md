@@ -42,6 +42,24 @@ The hourly forecast uses a horizontally scrollable CSS Grid layout so that forec
 
 During development, browser hard reloads such as `Ctrl + F5` were used to ensure that updated JavaScript and CSS files were loaded.
 
+## 🔗 Links
+
+- **Live Demo:** [View application](https://asikowealtherapp.netlify.app/)
+- **Source Code:** [View on GitHub](https://github.com/adigson/responsive-weather-dashboard)
+
+## 💻 Getting Started
+
+1. Clone the repository:
+
+   git clone https://github.com/adigson/responsive-weather-dashboard.git
+
+2. Open the project folder in VS Code.
+
+3. Open `index.html` with Live Server, or serve the folder using any local web server.
+
+## 📌 Project Scope
+
+This is a frontend-focused project that consumes external weather APIs. It demonstrates asynchronous JavaScript, API integration, responsive design, error handling, and dynamic UI rendering. A future version could add a backend for saved locations, user accounts, caching, and server-side API requests.
 ---
 
 Built with 💻 by **Musibau Bolaji**  
