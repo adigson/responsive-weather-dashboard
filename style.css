@@ -34,6 +34,108 @@ body {
     gap: 1.5rem;
 }
 
+/* Site navigation */
+.site-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.site-brand,
+.about-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.site-brand { font-size: 1.1rem; }
+
+.about-link {
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 0.65rem 1rem;
+    transition: var(--transition);
+}
+
+.about-link:hover,
+.about-link:focus-visible {
+    border-color: var(--accent);
+    color: var(--accent-hover);
+}
+
+.about-content {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.about-intro { padding: clamp(1.5rem, 5vw, 3.5rem); }
+
+.about-eyebrow {
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.75rem;
+}
+
+.about-intro h1 {
+    max-width: 15ch;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+}
+
+.about-intro > p:not(.about-eyebrow),
+.about-section > p {
+    max-width: 70ch;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.about-cta {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.8rem 1.1rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.about-section h2 { margin-bottom: 1rem; }
+
+.about-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.about-feature {
+    padding: 1rem;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.about-feature h3 { margin-bottom: 0.5rem; }
+
+.about-feature p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.about-section a {
+    color: var(--accent-hover);
+    text-underline-offset: 0.2em;
+}
+
+.about-links strong { color: var(--text-primary); }
+
+@media (max-width: 600px) {
+    .site-nav { gap: 0.5rem; }
+    .about-feature-grid { grid-template-columns: 1fr; }
+}
+
 /* Header & Inputs */
 .dashboard-header {
     display: flex;

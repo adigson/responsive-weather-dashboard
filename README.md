@@ -12,6 +12,7 @@ A modern responsive weather dashboard built with vanilla HTML, CSS, and JavaScri
 - **Seven-Day Forecast:** Shows daily maximum and minimum temperatures with weather conditions.
 - **Geolocation Support:** Uses the browser Geolocation API to detect the user’s location, with Lagos, Nigeria as the default fallback.
 - **Responsive Design:** Uses CSS Grid, Flexbox, and responsive breakpoints for desktop, tablet, and mobile layouts.
+- **About Page:** Explains the dashboard’s features, data source, technology, and project links.
 - **Error Handling:** Provides fallback behavior for failed searches, unavailable weather data, and denied geolocation access.
 
 ## 🛠️ Technology Stack
