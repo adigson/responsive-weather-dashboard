@@ -10,7 +10,7 @@ A modern responsive weather dashboard built with vanilla HTML, CSS, and JavaScri
 - **Metric and Imperial Units:** Reloads weather data using Celsius/km/h/mm or Fahrenheit/mph/inches.
 - **Hourly Forecast:** Displays hourly weather information for the selected forecast day in a horizontally scrollable layout.
 - **Seven-Day Forecast:** Shows daily maximum and minimum temperatures with weather conditions.
-- **Geolocation Support:** Uses the browser Geolocation API to detect the user’s location, with Lagos, Nigeria as the default fallback.
+- **Geolocation Support:** Uses the browser Geolocation API and a free reverse-geocoding endpoint to show the detected place name, with coordinates as a fallback and Lagos, Nigeria as the default.
 - **Responsive Design:** Uses CSS Grid, Flexbox, and responsive breakpoints for desktop, tablet, and mobile layouts.
 - **About Page:** Explains the dashboard’s features, data source, technology, and project links.
 - **Error Handling:** Provides fallback behavior for failed searches, unavailable weather data, and denied geolocation access.
@@ -23,6 +23,7 @@ A modern responsive weather dashboard built with vanilla HTML, CSS, and JavaScri
 - Fetch API and Async/Await
 - Open-Meteo Forecast API
 - Open-Meteo Geocoding API
+- BigDataCloud reverse-geocoding API
 - WMO weather-code mapping
 
 ## 🧠 Implementation Challenges
@@ -30,6 +31,8 @@ A modern responsive weather dashboard built with vanilla HTML, CSS, and JavaScri
 ### Geocoding Result Handling
 
 The Geocoding API returns location data inside a `results` array. The application uses the first matching result to obtain the city’s latitude, longitude, and country before requesting its weather data.
+
+When device location is used, the app reverse-geocodes the coordinates to display a nearby city or region. If that lookup is unavailable, it displays the coordinates instead.
 
 ### Asynchronous Data Loading
 
